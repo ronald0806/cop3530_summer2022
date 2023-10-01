@@ -1,0 +1,61 @@
+Ronald Chatelier
+
+COP 3530
+
+Assignment 02
+
+
+1. 
+
+#include <iostream>
+int main()
+{
+    int size;
+    int maxIndex, j, i, temp, max;
+    int* array = NULL;
+ 
+    // the size for the array
+    std::cout << "Array's size: ";
+    std::cin >> size;
+ 
+    array = new int[size];
+    // elements picked for the array
+    std::cout << "Elements in array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cin >> array[i];
+    }
+ 
+    // results for unsorted array
+    std::cout << "Unsorted array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << array[i] << " ";
+    }
+ 
+    // selection sort
+    for (int i = 0; i < size - 1; i++)
+    {
+        maxIndex = i;
+        max = array[i];
+        for (int j = i + 1; j < size; j++)
+        {
+            if (max > array[j])
+            {
+                max = array[j];
+                maxIndex = j;
+            }
+        }
+        temp = array[i];
+        array[i] = array[maxIndex];
+        array[maxIndex] = temp;
+    }
+    // results for sorted array
+    std::cout << std::endl << "Sorted array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << array[i] << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}

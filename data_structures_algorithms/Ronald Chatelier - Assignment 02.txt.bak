@@ -1,0 +1,251 @@
+Ronald Chatelier
+COP 3530
+Homework Assignment 02
+
+
+1.---------- 
+
+#include <iostream>
+
+int main()
+{
+    int size;
+    int maxIndex;
+    int j;
+    int i;
+    int tmp;
+    int max;
+    int* array = NULL;
+
+    // the size for the array
+    std::cout << "Array's size: ";
+    std::cin >> size;
+    // array set to new int[size]
+    array = new int[size];
+    // values picked for the array
+    std::cout << "Values in array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cin >> array[i];
+    }
+
+    // results for unsorted array
+    std::cout << "Unsorted array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << array[i] << " ";
+    }
+
+    // selection sort
+    for (int i = 0; i < size - 1; i++)
+    {
+        // maxIndex assigned to i for array
+        maxIndex = i;
+        max = array[i];
+        for (int j = i + 1; j < size; j++)
+        {
+            if (max > array[j])
+            {
+                max = array[j];
+                maxIndex = j;
+            }
+        }
+        tmp = array[i];
+        array[i] = array[maxIndex];
+        array[maxIndex] = tmp;
+    }
+    // results for sorted array
+    std::cout << std::endl << "Sorted array: ";
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << array[i] << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+
+
+2.----------
+
+#include<iostream>
+
+// EEA: Extended Euclidian Algorithm
+int EEA(int a, int b) 
+{
+    int s = 0;
+    int old_s = 1;
+    int t = 1;
+    int old_t = 0;
+    int r = b;
+    int old_r = a;
+
+    while (r != 0) {
+
+        int q = (old_r / r);
+        // 3 tmp values assign for old_r, old_s, and old_t
+        int tmp1 = old_r;
+        int tmp2 = old_s;
+        int tmp3 = old_t;
+        //old versions assigned to t, r, and s
+        old_t = t;
+        old_r = r;
+        old_s = s;
+        
+        r = (tmp1 - q * r);
+        s = tmp2 - q * s;
+        t = tmp3 - q * t;
+    }
+    // GCD: Greatest Common Divisor
+    // GDC outputted with old_r
+    std::cout << "GCD: " << old_r << std::endl;
+
+    return (t, s);
+}
+
+int main()
+{
+    int a;
+    int b;
+    // first value inputted
+    std::cout << "First value: ";
+    std::cin >> a;
+    // second value inputted
+    std::cout << "Second value: ";
+    std::cin >> b;
+    // a and b called from EEA function
+    EEA(a, b);
+    return 0;
+}
+
+3.----------
+
+#include <iostream>
+#include <vector>
+
+void TwoLargest(int array[], int n)
+{
+    // first and second large numbers assigned to arrays
+    int large_1 = array[0];
+    int large_2 = array[0];
+
+    for (int i = 1; i < n; i++)
+
+    {
+        if (array[i] > large_1)
+        {
+
+            large_2 = large_1;
+            large_1 = array[i];
+
+        }
+        else if (large_2 < array[i])
+            large_2 = array[i];
+    }
+    // two largest numbers outputted
+    std::cout << "The two largest numbers: " << large_1 << "," << large_2 << std::endl;
+}
+
+int main()
+{
+    int size;
+
+    std::vector<int> v;
+    // size of list inputted and outputted
+    std::cout << "List's size : ";
+    std::cin >> size;
+
+    int array[size];
+    // array of the size set outputted
+    std::cout << "Numbers in list : ";
+
+    for (int i = 0; i < size; i++)
+
+        // input for the array
+        std::cin >> array[i];
+
+    // array and sizeof(array) divided by sizeof(array[0]
+    TwoLargest(array, sizeof(array) / sizeof(array[0]));
+
+    return 0;
+}
+
+
+4.----------
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+// inputted number changed into binary
+std::vector<int> BinaryK(int k)
+{
+    std::vector<int> K;
+    int tmp = k;
+    int i = 0;
+
+    while (tmp > 0)
+    {
+        // tmp going through modulus by 2
+        K.push_back(tmp % 2);
+        tmp = (tmp - K[i]) / 2;
+        i++;
+    }
+
+    return K;
+}
+
+// Modular Exponentiation (ME) calculation
+int ModularExpo(int a, std::vector<int> K, int n, int k)
+{
+    int b;
+    int i;
+    int A;
+
+    // n equals to 1 returns 0
+    if (n == 1)
+        return 0;
+    b = 1;
+    // k equals to 0 returns b
+    if (k == 0)
+        return b;
+    A = a;
+    // K[0] equals to 1 returns b
+    if (K[0] == 1)
+        b = a;
+
+    for (i = 1; i <= K.size() - 1; i++)
+    {
+
+        A = (A * A) % n;
+
+        if (K[i] == 1)
+            b = (A * b) % n;
+    }
+
+    return b;
+}
+
+int main()
+{
+    std::vector<int> K;
+    int a;
+    int k;
+    int n;
+    int i;
+    int result;
+	
+	// values of a, k, and n inputted and outputted
+    std::cout << "Value a: ";
+    std::cin >> a;
+    std::cout << "Value k: ";
+    std::cin >> k;
+    std::cout << "Value n: ";
+    std::cin >> n;
+	
+	// vector K assigned to BinaryK
+    K = BinaryK(k);
+	// results for Modular Exponentiation
+    result = ModularExpo(a, K, n, k);
+    std::cout << "Results: " << result;
+    return 0;
+}

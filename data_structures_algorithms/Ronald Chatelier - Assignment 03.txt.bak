@@ -1,0 +1,279 @@
+Ronald Chatelier
+COP 3530
+Homework Assignment 03
+
+1.---------- 
+
+#include <iostream>
+
+// structure of the node
+struct Node
+{
+	int data;
+	Node *next;
+	Node(int nodeInput)
+	{
+		this -> data = nodeInput;
+		this -> next = nullptr;
+	}
+};
+
+// class for a singe linked list
+class singleLinkedList
+{
+private:
+	Node *head;
+
+	// create nodes with inserting
+	void createList(int data)
+	{
+		Node *newNode = new Node(data);
+		if (this -> head == nullptr)
+		{
+			this -> head = newNode;
+		}
+		else
+		{
+			Node *ptr = this -> head;
+			while (ptr -> next != nullptr)
+			{
+				ptr = ptr -> next;
+			}
+			ptr -> next = newNode;
+		}
+	}
+
+public:
+	// single link list implementation
+	singleLinkedList()
+	{
+		head = nullptr;
+	}
+	
+	// data of node outputted
+	void display()
+	{
+		Node *ptr = this -> head;
+		while (ptr)
+		{
+			std::cout << ptr -> data << " ";
+			ptr = ptr->next;
+		}
+		std::cout << std::endl;
+	}
+
+	// node being inputted in the list
+	void getNode(int n)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			int nodeList;
+			std::cout << "Enter Data: ";
+			std::cin >> nodeList;
+			this -> createList(nodeList);
+		}
+	}
+
+	// node deleted at the middle of the list
+	void delete_at_mid()
+	{
+		if (this -> head == nullptr)
+		{
+			return;
+		}
+		if (this -> head -> next == nullptr)
+		{
+			delete this -> head;
+			this -> head = nullptr;
+			return;
+		}
+
+		Node *left = this -> head;
+		Node *right = this -> head;
+
+		struct Node *prevPtr;
+		while (right != nullptr && right -> next != nullptr)
+		{
+			right = right -> next -> next;
+			prevPtr = left;
+			left = left->next;
+		}
+		prevPtr->next = left->next;
+		// deleting the middle
+		delete left;
+	}
+	
+	// node inserted at the middle of the list
+	void insert_at_mid(int nodeInput)
+	{
+		// if linked list is empty (nullptr)
+		if (this -> head == nullptr)
+			this -> head = new Node(nodeInput);
+		else
+		{
+			// new node is created
+			Node *newNode = new Node(nodeInput);
+			Node *left = this -> head;
+			Node *right = this -> head -> next;
+			while (right && right->next)
+			{
+				left = left -> next;
+				right = right -> next -> next;
+			}
+
+			newNode -> next = left -> next;
+			left -> next = newNode;
+		}
+	}
+};
+
+int main()
+{
+	singleLinkedList nodeList;
+	// size of the list
+	nodeList.getNode(8);
+	nodeList.display();
+	nodeList.delete_at_mid();
+	nodeList.display();
+	// node that will be inserted, which is 6
+	nodeList.insert_at_mid(6);
+	nodeList.display();
+	return 0;
+}
+
+
+2.----------
+
+#include <iostream>
+
+// structure of the node
+struct Node
+{
+	int data;
+	Node *next, *prev;
+	Node(int nodeInput)
+	{
+		this->data = nodeInput;
+		this->next = nullptr;
+		this->prev = nullptr;
+	}
+};
+
+// class for a double linked list
+class doubleLinkedList
+{
+private:
+	Node *head;
+
+	void createList(int data)
+	{
+		Node *newNode = new Node(data);
+		if (this -> head == nullptr)
+		{
+			this -> head = newNode;
+		}
+		else
+		{
+			Node *ptr = this->head;
+			while (ptr -> next != nullptr)
+			{
+				ptr = ptr -> next;
+			}
+			ptr -> next = newNode;
+			newNode -> prev = ptr;
+		}
+	}
+
+public:
+	// double link list implementation
+	doubleLinkedList()
+	{
+		this -> head = nullptr;
+	}
+	// data of node outputted
+	void display()
+	{
+		Node *ptr = this->head;
+		while (ptr)
+		{
+			std::cout << ptr -> data << " ";
+			ptr = ptr -> next;
+		}
+		std::cout << std::endl;
+	}
+	
+	// node being inputted in the list
+	void getNode(int n)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			int nodeList;
+			std::cout << "Enter Data: ";
+			std::cin >> nodeList;
+			this -> createList(nodeList);
+		}
+	}
+	
+	// node deleted at the end of the list
+	void delete_at_end()
+	{
+
+		if (this -> head == nullptr)
+		{
+			return;
+		}
+		else if (this -> head -> next == nullptr)
+		{
+			delete this -> head;
+			this -> head = nullptr;
+			return;
+		}
+		else
+		{
+
+			Node *ptr = this -> head;
+			Node *prePtr = nullptr;
+			while (ptr -> next)
+			{
+				prePtr = ptr;
+				ptr = ptr->next;
+			}
+			delete ptr;
+			prePtr -> next = nullptr;
+			return;
+		}
+	}
+	
+	// node inserted at the beginning of the list
+	void insert_at_beginning(int nodeInput)
+	{
+
+		Node *newNode = new Node(nodeInput);
+
+		if (this -> head == nullptr)
+		{
+			this -> head = newNode;
+		}
+		else
+		{
+
+			newNode -> next = this -> head;
+			this -> head -> prev = newNode;
+			this -> head = newNode;
+		}
+	}
+};
+
+int main()
+{
+	doubleLinkedList nodeList;
+	// size of the list
+	nodeList.getNode(8);
+	nodeList.display();
+	nodeList.delete_at_end();
+	nodeList.display();
+	// node that will be inserted, which is 6
+	nodeList.insert_at_beginning(6);
+	nodeList.display();
+	return 0;
+}
